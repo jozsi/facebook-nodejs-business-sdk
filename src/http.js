@@ -9,7 +9,7 @@
  */
 import Api from './api';
 import HTTP_STATUS from './http-status';
-const requestPromise = require('request-promise');
+const requestPromise = {}; //require('request-promise');
 
 /**
  * Isomorphic Http Promise Requests Class
@@ -34,7 +34,14 @@ export default class Http {
     if (typeof window !== 'undefined' && window.XMLHttpRequest) {
       return Http.xmlHttpRequest(method, url, data);
     }
-    return Http.requestPromise(method, url, data, files, useMultipartFormData, showHeader);
+    return Http.requestPromise(
+      method,
+      url,
+      data,
+      files,
+      useMultipartFormData,
+      showHeader,
+    );
   }
 
   /**
@@ -57,7 +64,7 @@ export default class Http {
           response = {
             error: {
               message: 'Failed to parse response JSON.',
-            }
+            },
           };
           reject(convertXhrErrorToRequestPromiseError(request, response));
           return;
@@ -66,7 +73,7 @@ export default class Http {
           reject(convertXhrErrorToRequestPromiseError(request, response));
           return;
         }
-        
+
         resolve(response);
       };
       request.setRequestHeader('Content-Type', 'application/json');
@@ -100,7 +107,7 @@ export default class Http {
       method: method,
       uri: url,
       json: !useMultipartFormData,
-      headers: {'User-Agent': `fbbizsdk-nodejs-v${Api.SDK_VERSION}`},
+      headers: { 'User-Agent': `fbbizsdk-nodejs-v${Api.SDK_VERSION}` },
       body: Object,
       resolveWithFullResponse: showHeader,
     };
@@ -128,8 +135,8 @@ export default class Http {
 /**
  * Converts the given XHR error to an error that looks like one that would
  * be returned by the request-promise API.
- * @param {XMLHttpRequest} request 
- * @param {any} response 
+ * @param {XMLHttpRequest} request
+ * @param {any} response
  */
 function convertXhrErrorToRequestPromiseError(request, response) {
   return {
