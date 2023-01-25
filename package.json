@@ -48,11 +48,8 @@
     "rollup-plugin-polyfill-node": "^0.12.0"
   },
   "type": "module",
-  "browser": {
-    "async_hooks": false
-  },
   "scripts": {
-    "prepublishh": "gulp dist",
+    "prepublish": "rollup -c rollup.config.js",
     "start": "semistandard --fix",
     "flow": "flow",
     "test": "jest"
